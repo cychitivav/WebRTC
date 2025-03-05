@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     # Commit and push
     print("➡️ Commiting and pushing code to remote...")
-    os.system(f'git add .')
+    os.system(f'git add Package.swift WebRTC-lib.podspec README.md WebRTC.json')
     os.system(f'git commit -m "Updated files for release M{nextRelease.version}"')
     os.system(f'git push origin {releaseBranch}')
 
