@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 project(webrtc)
 
 set(CPACK_GENERATOR "DEB")
-set(CPACK_PACKAGE_NAME "webrtc-dev")
+set(CPACK_PACKAGE_NAME "webrtc")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_PACKAGE_CONTACT "You <your.email@example.com>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Custom build of WebRTC")
