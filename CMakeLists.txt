@@ -50,7 +50,7 @@ install(
 )
 install(
   DIRECTORY "build/webrtc-checkout/src/third_party/libyuv/include/"
-  DESTINATION "include/webrtc/3rdparty"
+  DESTINATION "include/webrtc"
   FILES_MATCHING PATTERN "*.h"
 )
 install(
