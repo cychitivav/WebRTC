@@ -36,18 +36,15 @@ jobs:
           sudo apt-get install -y cmake build-essential ninja-build python3 git curl wget lsb-release pkg-config
 
       - name: Configure CMake
-        working-directory: ros_packages/webrtc
         run: |
           mkdir -p build_cmake
           cd build_cmake
           cmake ..
 
       - name: Build WebRTC
-        working-directory: ros_packages/webrtc/build_cmake
         run: make -j$(nproc)
 
       - name: Create DEB Package
-        working-directory: ros_packages/webrtc/build_cmake
         run: cpack -G DEB
 
       - name: Upload artifact
