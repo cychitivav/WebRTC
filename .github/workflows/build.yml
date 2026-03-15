@@ -20,17 +20,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cmake build-essential ninja-build python3 git curl wget lsb-release pkg-config
 
+      - name: Cache WebRTC sources
+        uses: actions/cache@v4
+        with:
+          path: build/
+          key: webrtc-source-${{ runner.os }}-${{ github.event.inputs.branch || 'main' }}
+          restore-keys: |
+            webrtc-source-${{ runner.os }}-
+
       - name: Configure CMake
         run: |
+          export BRANCH="${{ github.event.inputs.branch || 'main' }}"
+          ./build.sh
           mkdir -p build_cmake
           cd build_cmake
           cmake ..
 
       - name: Build WebRTC
         run: make -j$(nproc)
+        working-directory: build_cmake
 
       - name: Create DEB Package
         run: cpack -G DEB
+        working-directory: build_cmake
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

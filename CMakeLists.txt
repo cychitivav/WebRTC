@@ -11,16 +11,6 @@ set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 
 include(CPack)
 
-message(STATUS "Building WebRTC")
-execute_process(
-  COMMAND ${CMAKE_COMMAND} -E env BRANCH=main "${CMAKE_CURRENT_SOURCE_DIR}/build.sh"
-  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-  RESULT_VARIABLE result
-)
-if(NOT ${result} EQUAL 0)
-  message(FATAL_ERROR "Error building WebRTC: ${result}")
-endif()
-
 message(STATUS "Configuring WebRTC build system")
 message(${CMAKE_CURRENT_SOURCE_DIR})
 execute_process(
