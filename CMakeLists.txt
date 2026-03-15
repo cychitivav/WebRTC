@@ -6,7 +6,7 @@ set(CPACK_PACKAGE_NAME "webrtc")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_PACKAGE_CONTACT "You <your.email@example.com>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Custom build of WebRTC")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libabsl-dev")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 
 include(CPack)
@@ -59,3 +59,16 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
+
+# Create generic config script for find_package(webrtc)
+set(WEBRTC_CONFIG_PATH "${CMAKE_CURRENT_BINARY_DIR}/webrtcConfig.cmake")
+file(WRITE ${WEBRTC_CONFIG_PATH}
+  "set(webrtc_INCLUDE_DIRS \"/usr/include/webrtc\")\n"
+  "set(webrtc_LIBRARIES \"/usr/lib/libwebrtc.a\")\n"
+  "set(webrtc_DEFINITIONS \"-DWEBRTC_POSIX\")\n"
+  "set(webrtc_FOUND TRUE)\n"
+)
+install(
+  FILES ${WEBRTC_CONFIG_PATH}
+  DESTINATION "lib/cmake/webrtc"
+)
