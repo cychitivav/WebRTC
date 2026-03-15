@@ -1,24 +1,24 @@
-name: WebRTC Release
-run-name: WebRTC Release
+name: Check WebRTC Weekly Release
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * 3'
+    - cron: "0 12 * * 3" # Every Wednesday at 12:00 PM UTC
+
 jobs:
   Build-Script:
-    runs-on: macos-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
+
       - name: Running WebRTC weekly release checks
         run: |
           sh clean.sh
           pip install requests python-telegram-bot
           python -u scripts/release.py
-    
