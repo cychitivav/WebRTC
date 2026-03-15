@@ -32,8 +32,8 @@ jobs:
 
       - name: Install OS dependencies
         run: |
-          apt-get update
-          apt-get install -y cmake build-essential ninja-build python3 git curl wget lsb-release pkg-config
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential ninja-build python3 git curl wget lsb-release pkg-config
 
       - name: Configure CMake
         working-directory: ros_packages/webrtc
