@@ -21,6 +21,7 @@ if [ ! -d webrtc-checkout ]; then
     mkdir -p webrtc-checkout
     cd webrtc-checkout
     fetch --nohooks webrtc
+    cd ..
 fi
 
 cd webrtc-checkout/src
