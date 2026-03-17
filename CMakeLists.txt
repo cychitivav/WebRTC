@@ -31,13 +31,13 @@ execute_process(
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/webrtc-checkout/src"
   RESULT_VARIABLE prepare_webrtc_build_result
 )
-
 if(NOT ${prepare_webrtc_build_result} EQUAL 0)
   message(FATAL_ERROR "cannot prepare WebRTC build system: ${prepare_webrtc_build_result}")
 endif()
 
 add_custom_target(webrtc ALL
-  COMMAND ${CMAKE_COMMAND} -E env "PATH=${CMAKE_CURRENT_SOURCE_DIR}/build/depot_tools:$ENV{PATH}" "ninja" -C "${CMAKE_CURRENT_BINARY_DIR}/ninja" webrtc
+  COMMAND ${CMAKE_COMMAND} -E env "PATH=${CMAKE_CURRENT_SOURCE_DIR}/build/depot_tools:$ENV{PATH}"
+  "ninja" -C "${CMAKE_CURRENT_BINARY_DIR}/ninja" webrtc
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/webrtc-checkout/src"
 )
 
@@ -51,14 +51,30 @@ install(
   DIRECTORY "build/webrtc-checkout/src/"
   DESTINATION "include/webrtc"
   FILES_MATCHING PATTERN "*.h" PATTERN "*.inc"
-  # REGEX "^build/webrtc-checkout/src/absl/" EXCLUDE
 )
 
 set(WEBRTC_CONFIG_PATH "${CMAKE_CURRENT_BINARY_DIR}/webrtcConfig.cmake")
 file(WRITE ${WEBRTC_CONFIG_PATH}
-  "set(webrtc_INCLUDE_DIRS \"/usr/include/webrtc\")\n"
-  "set(webrtc_LIBRARIES \"/usr/lib/libwebrtc.a\")\n"
-  "set(webrtc_DEFINITIONS \"-DWEBRTC_POSIX\")\n"
+  "cmake_minimum_required(VERSION 3.5)\n"
+  "\n"
+  "find_package(JPEG REQUIRED)\n"
+  "\n"
+  "if(NOT TARGET webrtc::webrtc)\n"
+  "  add_library(webrtc::webrtc STATIC IMPORTED GLOBAL)\n"
+  "\n"
+  "  set(_webrtc_includes\n"
+  "    \"/usr/include/webrtc/third_party/abseil-cpp;/usr/include/webrtc/third_party/libyuv/include;/usr/include/webrtc/third_party;/usr/include/webrtc\"\n"
+  "  )\n"
+  "\n"
+  "  set_target_properties(webrtc::webrtc PROPERTIES\n"
+  "    IMPORTED_LOCATION \"/usr/lib/libwebrtc.a\"\n"
+  "    INTERFACE_COMPILE_DEFINITIONS \"WEBRTC_POSIX;WEBRTC_LINUX\"\n"
+  "    INTERFACE_INCLUDE_DIRECTORIES \"\${_webrtc_includes}\"\n"
+  "    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES \"\${_webrtc_includes}\"\n"
+  "    INTERFACE_LINK_LIBRARIES \"JPEG::JPEG;Xcomposite;Xfixes;Xdamage;Xrandr;Xtst\"\n"
+  "  )\n"
+  "endif()\n"
+  "\n"
   "set(webrtc_FOUND TRUE)\n"
 )
 
