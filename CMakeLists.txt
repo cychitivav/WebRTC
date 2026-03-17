@@ -68,7 +68,7 @@ file(WRITE ${WEBRTC_CONFIG_PATH}
   "\n"
   "  set_target_properties(webrtc::webrtc PROPERTIES\n"
   "    IMPORTED_LOCATION \"/usr/lib/libwebrtc.a\"\n"
-  "    INTERFACE_COMPILE_DEFINITIONS \"WEBRTC_POSIX;WEBRTC_LINUX\"\n"
+  "    INTERFACE_COMPILE_DEFINITIONS \"WEBRTC_POSIX;WEBRTC_LINUX;NDEBUG\"\n"
   "    INTERFACE_INCLUDE_DIRECTORIES \"\${_webrtc_includes}\"\n"
   "    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES \"\${_webrtc_includes}\"\n"
   "    INTERFACE_LINK_LIBRARIES \"JPEG::JPEG;Xcomposite;Xfixes;Xdamage;Xrandr;Xtst\"\n"
